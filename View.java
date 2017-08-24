@@ -1,3 +1,4 @@
+
 import javax.swing.JFrame;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -26,6 +27,8 @@ public class View extends JFrame {
         getContentPane().add(new MyPanel(c));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        addKeyListener(c);
     }
 }
+
 

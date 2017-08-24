@@ -1,3 +1,4 @@
+
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -16,6 +17,8 @@ abstract class Sprite
     private int h;
     private int xSlope;
     private int ySlope;
+    private int afterHit;
+    private Boolean isHit;
     private Image image;
     private static Random rand;
 
@@ -29,6 +32,8 @@ abstract class Sprite
         y = yIn;
         w = width;
         h = height;
+        afterHit = 0;
+        isHit = false;
         xSlope = rand.nextInt(11) - 5;
         ySlope = rand.nextInt(11) - 5;
     }
@@ -50,11 +55,40 @@ abstract class Sprite
     public Image getImage() { return image; }
     
     public boolean overlaps(Sprite s) {
-        return false;
+    	
+    	//Get corners of current sprite
+    	
+    	
+    	//do some bounds checking
+    	if ((x <= s.x && s.x <= x + size) && (y <= s.y && s.y <= y + size))
+    		return true;
+    	else if ((s.x <= x && x <= s.x + size) && (s.y <= y && y <= s.y + s.size))
+    		return true;
+    	else if ((x <= s.x && s.x <= x + size) && (s.y <= y && y <= s.y + s.size))
+    		return true;
+    	else if ((s.x <= x && x <= s.x + size) && (y <= s.y && s.y <= y + size))
+    		return true;
+    	else
+    		return false;
+    }
+    
+    public void hit() {
+    	isHit = true;
+    	setImage("gravestone.jpg");
+    	xSlope = ySlope = 0;
     }
     
     public void update(Graphics g) {
+    	if (isHit)
+    		afterHit++;
         g.drawImage(getImage(), x, y, getSize(), getSize(), null);
+    }
+    
+    public boolean shouldRemove() {
+    	if (afterHit >= 20)
+    		return true;
+    	else
+    		return false;
     }
     
     public void move() {
